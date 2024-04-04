@@ -1,0 +1,157 @@
+[
+  {
+    "conditions": {
+      "all": [
+        {
+          "fact": "medication",
+          "operator": "doesNotContain",
+          "value": "999969"
+        },
+        {
+          "fact": "bp_systolic",
+          "operator": "lessThan",
+          "value": 130
+        },
+        {
+          "fact": "bp_diastolic",
+          "operator": "lessThan",
+          "value": 90
+        }
+      ]
+    },
+    "event": {
+      "type": "keep-dosage",
+      "params": {
+        "message": "Patient uses no Amlodipine and has normal BP => keep dosage at 0",
+        "dosage": 0
+      }
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "fact": "medication",
+          "operator": "doesNotContain",
+          "value": "999969"
+        },
+        {
+          "fact": "bp_systolic",
+          "operator": "greaterThan",
+          "value": 130
+        },
+        {
+          "fact": "bp_diastolic",
+          "operator": "greaterThan",
+          "value": 90
+        }
+      ]
+    },
+    "event": {
+      "type": "increase-dosage",
+      "params": {
+        "message": "Patient uses no Amlodipine but has BP > 130/90 => increase dosage from 0 to 1",
+        "dosage": 1
+      }
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "fact": "medication",
+          "operator": "contains",
+          "value": "999969"
+        },
+        {
+          "fact": "dosage",
+          "operator": "equal",
+          "value": 1
+        },
+        {
+          "fact": "bp_systolic",
+          "operator": "lessThan",
+          "value": 130
+        },
+        {
+          "fact": "bp_diastolic",
+          "operator": "lessThan",
+          "value": 90
+        }
+      ]
+    },
+    "event": {
+      "type": "keep-dosage",
+      "params": {
+        "message": "Patient uses Amlodipine dosage 1 and has normal BP => keep dosage at 1",
+        "dosage": 1
+      }
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "fact": "medication",
+          "operator": "contains",
+          "value": "999969"
+        },
+        {
+          "fact": "dosage",
+          "operator": "equal",
+          "value": 1
+        },
+        {
+          "fact": "bp_systolic",
+          "operator": "greaterThan",
+          "value": 130
+        },
+        {
+          "fact": "bp_diastolic",
+          "operator": "greaterThan",
+          "value": 90
+        }
+      ]
+    },
+    "event": {
+      "type": "increase-dosage",
+      "params": {
+        "message": "Patient uses Amlodipine dosage 1 but has BP > 130/90 => increase dosage from 1 to 2",
+        "dosage": 2
+      }
+    }
+  },
+  {
+    "conditions": {
+      "all": [
+        {
+          "fact": "medication",
+          "operator": "contains",
+          "value": "999969"
+        },
+        {
+          "fact": "dosage",
+          "operator": "equal",
+          "value": 2
+        },
+        {
+          "fact": "bp_systolic",
+          "operator": "lessThan",
+          "value": 130
+        },
+        {
+          "fact": "bp_diastolic",
+          "operator": "lessThan",
+          "value": 90
+        }
+      ]
+    },
+    "event": {
+      "type": "keep-dosage",
+      "params": {
+        "message": "Patient uses Amlodipine dosage 2 and has normal BP => keep dosage at 2",
+        "dosage": 2
+      }
+    }
+  }
+]
