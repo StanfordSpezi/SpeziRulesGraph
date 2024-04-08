@@ -1,5 +1,5 @@
 const express = require("express");
-const { addFacts, getFacts } = require("./facts");
+const { getFHIRFacts } = require("./facts");
 const { Engine } = require("json-rules-engine");
 
 const app = express();
@@ -8,11 +8,6 @@ const port = 3000;
 app.use(express.json({ limit: "10mb" }));
 
 let engine = new Engine();
-
-// add facts to the engine
-addFacts({
-  roses: "red",
-});
 
 // add rules to the engine
 app.post("/addRules", (req, res) => {
@@ -23,7 +18,8 @@ app.post("/addRules", (req, res) => {
 
 // evaluates facts against the rules
 app.post("/evaluate", (req, res) => {
-  const facts = getFacts();
+  const fhirBundle = req.body;
+  const facts = getFHIRFacts(fhirBundle);
 
   engine.run(facts).then(({ events }) => {
     messages = [];
