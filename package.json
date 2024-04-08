@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "fhirpath": "^3.11.0",
+    "json-rules-engine": "^6.5.0"
   }
 }

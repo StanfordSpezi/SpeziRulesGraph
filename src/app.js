@@ -1,7 +1,5 @@
 const express = require("express");
-const fhirpath = require("fhirpath");
-const fhirpath_r4_model = require("fhirpath/fhir-context/r4");
-
+const { addFacts, getFacts } = require("./facts");
 const { Engine } = require("json-rules-engine");
 
 const app = express();
@@ -11,44 +9,26 @@ app.use(express.json({ limit: "10mb" }));
 
 let engine = new Engine();
 
+// add facts to the engine
+addFacts({
+  roses: "red",
+});
+
+// add rules to the engine
 app.post("/addRules", (req, res) => {
   const rules = req.body;
   rules.map((rule) => engine.addRule(rule));
   res.send("Rules added successfully");
 });
 
+// evaluates facts against the rules
 app.post("/evaluate", (req, res) => {
-  const fhirBundle = req.body;
-
-  const facts = {
-    medication: fhirpath.evaluate(
-      fhirBundle,
-      "Bundle.entry.resource.where(resourceType = 'MedicationRequest' and status = 'active').medicationCodeableConcept.coding.code",
-      fhirpath_r4_model
-    ),
-    dosage: 1,
-    bp_diastolic: average(
-      fhirpath.evaluate(
-        fhirBundle,
-        "Bundle.entry.resource.where(component.code.coding.code = '8462-4').component.valueQuantity.value",
-        fhirpath_r4_model
-      )
-    ),
-    bp_systolic: average(
-      fhirpath.evaluate(
-        fhirBundle,
-        "Bundle.entry.resource.where(component.code.coding.code = '8480-6').component.valueQuantity.value",
-        fhirpath_r4_model
-      )
-    ),
-  };
+  const facts = getFacts();
 
   engine.run(facts).then(({ events }) => {
     messages = [];
     events.map((event) => {
       messages.push(event.params.message);
-      // todo: write back to patient fhir bundle the change in mediaction dosage to send it to the EHR system
-      console.log("update dosage to: " + event.params.dosage);
     });
 
     res.send(messages);
@@ -58,8 +38,3 @@ app.post("/evaluate", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-// function to calculate avergae of elements of a list
-function average(list) {
-  return list.reduce((prev, curr) => prev + curr) / list.length;
-}
