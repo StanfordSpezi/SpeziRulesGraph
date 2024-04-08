@@ -34,10 +34,25 @@ const Export: React.FC = () => {
 
       const rule = new Rule();
       // first, match the patient to a node based on dosage/schedule
-      rule.addCondition("dosages", "contains", currentMedication?.data.dosage);
-      rule.addCondition("schedule", "equal", currentMedication?.data.schedule);
+      if (currentMedication?.data.dosage) {
+        rule.addCondition(
+          "dosages",
+          "contains",
+          currentMedication?.data.dosage
+        );
+      }
+      if (currentMedication?.data.schedule) {
+        rule.addCondition(
+          "schedule",
+          "equal",
+          currentMedication?.data.schedule
+        );
+      }
+
       // add rule conditions based on the edge to transition to the new medication
-      rule.addCondition(edge.data.fact, edge.data.operator, edge.data.value);
+      if (edge.data.fact && edge.data.operator && edge.data.value) {
+        rule.addCondition(edge.data.fact, edge.data.operator, edge.data.value);
+      }
 
       rule.setEvent(
         "change-medication",
@@ -59,16 +74,24 @@ const Export: React.FC = () => {
     const reflectiveRules = nodes.map((node: any) => {
       const rule = new Rule();
       // first, match the patient to a node based on dosage/schedule
-      rule.addCondition("dosages", "contains", node.data.dosage);
-      rule.addCondition("schedule", "equal", node.data.dosage);
+      if (node.data.dosage) {
+        rule.addCondition("dosages", "contains", node.data.dosage);
+      }
+      if (node.data.schedule) {
+        console.log(node.data.schedule);
+        rule.addCondition("schedule", "equal", node.data.schedule);
+      }
+
       // for every outgoing edge, add a condition that is the reverse of the edge's condition; this means non of the transitions matches and we stay in the node
       edges.forEach((edge: any) => {
         if (edge.source === node.id) {
-          rule.addCondition(
-            edge.data.fact,
-            reverseOperator(edge.data.operator),
-            edge.data.value
-          );
+          if (edge.data.fact && edge.data.operator && edge.data.value) {
+            rule.addCondition(
+              edge.data.fact,
+              reverseOperator(edge.data.operator),
+              edge.data.value
+            );
+          }
         }
       });
 
@@ -99,7 +122,10 @@ const Export: React.FC = () => {
   };
 
   return (
-    <button onClick={handleExport} className=" btn btn-primary z-1000">
+    <button
+      onClick={handleExport}
+      className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+    >
       Export
     </button>
   );

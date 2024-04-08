@@ -13,6 +13,7 @@ import "reactflow/dist/style.css";
 import "tailwindcss/tailwind.css";
 import { nodeTypes } from "./nodes";
 import { edgeTypes } from "./edges";
+import AddFuzzyNodeButton from "./components/AddFuzzyNodeButton";
 
 const selector = (state: any) => ({
   nodes: state.nodes,
@@ -64,7 +65,10 @@ const AddNodeOnEdgeDrop = () => {
       >
         <Background />
         <Controls>
-          <Export />
+          <div className="flex flex-col">
+            <Export />
+            <AddFuzzyNodeButton />
+          </div>
         </Controls>
       </ReactFlow>
     </div>

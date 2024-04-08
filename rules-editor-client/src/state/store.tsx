@@ -52,7 +52,7 @@ const useStore = create<RFState>((set, get) => {
       });
     },
     onConnect: (connection: Connection) => {
-      const edge = { ...connection, type: "decision-edge" };
+      const edge = { ...connection, type: "decision-edge", animated: true };
       set({
         edges: addEdge(edge, get().edges),
       });

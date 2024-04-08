@@ -2,6 +2,7 @@ import type { NodeProps } from "reactflow";
 import { Handle, Position } from "reactflow";
 import useStore from "../state/store";
 import CloseButton from "../components/CloseButton";
+import { initialDosages } from "../model/Dosage";
 
 export type MedicationNodeData = {
   label?: string;
@@ -26,7 +27,7 @@ export function MedicationNode({ id, data }: NodeProps<MedicationNodeData>) {
   };
 
   return (
-    <div className="bg-white w-48 rounded-xl border-gray-400 border-2 p-3">
+    <div className="bg-white min-w-48 rounded-xl border-gray-400 border-2 p-3">
       <div id="header" className="flex flex-row justify-between">
         {data.label && <div className="text-lg">{data.label}</div>}
         <CloseButton onClick={filterNodes} />
@@ -41,8 +42,9 @@ export function MedicationNode({ id, data }: NodeProps<MedicationNodeData>) {
             <option disabled selected>
               Pick Dosage
             </option>
-            <option>Amlodipine 5mg</option>
-            <option>Amlodipine 10mg</option>
+            {initialDosages.map((dosage) => (
+              <option value={dosage.FHIRcode}>{dosage.name}</option>
+            ))}
           </select>
         </div>
 

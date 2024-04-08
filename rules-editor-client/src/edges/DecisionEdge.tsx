@@ -4,6 +4,7 @@ import {
   EdgeProps,
   getSimpleBezierPath,
 } from "reactflow";
+import { initialFacts } from "../model/Fact";
 
 import useStore from "../state/store";
 import CloseButton from "../components/CloseButton";
@@ -53,7 +54,7 @@ export default function DecisionEdge({
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
             pointerEvents: "all",
           }}
-          className="nodrag nopan bg-white w-48 rounded-xl border-teal-500 border-2 p-3"
+          className="nodrag nopan bg-white w-52 rounded-xl border-teal-500 border-2 p-3"
         >
           <div id="header" className="flex flex-row justify-between">
             <h1 className="text-lg">Rule</h1>
@@ -67,8 +68,9 @@ export default function DecisionEdge({
               <option disabled selected>
                 Pick Fact
               </option>
-              <option>bp_systolic</option>
-              <option>bp_diasotlic</option>
+              {initialFacts.map((fact) => (
+                <option value={fact.FHIRcode}>{fact.name}</option>
+              ))}
             </select>
             <select
               className="select w-full bg-gray-100 p-2 rounded-md"

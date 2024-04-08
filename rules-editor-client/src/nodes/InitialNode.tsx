@@ -9,11 +9,9 @@ export type InitialNodeData = {
 
 export function InitialNode({ id, data }: NodeProps<InitialNodeData>) {
   const updateNodeDosage = useStore((s) => s.updateNodeDosage);
-  const updateNodeSchedule = useStore((s) => s.updateNodeSchedule);
 
   useEffect(() => {
     updateNodeDosage(id, "No Amlodipine");
-    updateNodeSchedule(id, "0xDay");
   }, []);
 
   return (
@@ -30,13 +28,13 @@ export function InitialNode({ id, data }: NodeProps<InitialNodeData>) {
           </select>
         </div>
 
-        <div>
+        {/* <div>
           <select className="select w-full bg-gray-100 p-2 rounded-md">
             <option disabled selected>
               0xDay
             </option>
           </select>
-        </div>
+        </div> */}
       </div>
       <Handle
         type="source"
