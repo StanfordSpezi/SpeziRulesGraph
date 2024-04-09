@@ -1,0 +1,11 @@
+{
+  "name": "@stanfordspezi/spezirulesgraph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "facts.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "author": "",
+  "license": "ISC"
+}
