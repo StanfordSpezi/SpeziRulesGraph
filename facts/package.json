@@ -6,6 +6,12 @@
   "scripts": {
     "test": "exit 0"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "url": "git://github.com/StanfordSpezi/SpeziRulesEngine.git"
+  },
   "author": "",
   "license": "ISC"
 }
